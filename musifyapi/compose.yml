@@ -1,18 +1,24 @@
-services:
-  mongo:
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-
-  mongo-express:
-    image: mongo-express
-    restart: always
+services:                                            # Defines the services to be run. `mongodb` will be the name of the service to run the actual database, while `mongo-express` will be the one to run the express application.
+  mongodb:
+    image: mongo:latest                              # Describes the image to be used when running the service. This is configured per service.
     ports:
-      - 8081:8081
+      - "27017:27017"                                # Describes the port binding of the docker container with the virtual port of the host machine.
+    environment:                                     # Values of environment variables are defined on this part of the config.
+      - MONGO_INITDB_ROOT_USERNAME=admin             # The admin and password env variables must be followed otherwise mongo won't work properly.
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongo-data:/data/db                          # We define a docker volume in here to house the data persistence for our mongodatabase. And then we bind the volume to the service.
+  mongo-express:
+    image: mongo-express:latest
+    restart: always                                  # This tells docker to always restart the service-container when execution is stopped.
+    ports:
+      - "8081:8081"
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-      ME_CONFIG_BASICAUTH_ENABLED: true
-      ME_CONFIG_BASICAUTH_USERNAME: mongoexpressuser
-      ME_CONFIG_BASICAUTH_PASSWORD: mongoexpresspass
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin        # The values for the mongodb credentials must match what is defined on the database service-container (above).
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_SERVER=mongodb             # Describe the server name of the database. In this case, it's the service-container that is running the mongodb.
+    depends_on:
+      - "mongodb"                                    # This tells docker to not run `mongo-express` if `mongodb` has not started successfully. 
+volumes:                                             # We define the volumes used by the services here.
+  mongo-data:
+    driver: local

@@ -22,6 +22,6 @@ public class Album {
 
     private String name;
     private String desc;
-    private String bgColour;
+    private String bgColor;
     private String imageUrl;
 }

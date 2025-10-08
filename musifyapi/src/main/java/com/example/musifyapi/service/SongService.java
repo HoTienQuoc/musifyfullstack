@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.musifyapi.document.Song;
+import com.example.musifyapi.dto.SongListResponse;
 import com.example.musifyapi.dto.SongRequest;
 import com.example.musifyapi.repository.SongRepository;
 
@@ -45,5 +46,15 @@ public class SongService {
         return String.format("%d:%02d",minutes,seconds);
     }
 
+    public SongListResponse getAllSongs(){
+        return new SongListResponse(true, songRepository.findAll());
+    }
 
+    public Boolean removeSong(String id){
+        Song existingSong = songRepository.findById(id).orElseThrow(
+            () -> new RuntimeException("Song not exception")
+        );
+        songRepository.delete(existingSong);
+        return true;
+    }
 }

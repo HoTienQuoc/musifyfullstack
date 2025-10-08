@@ -1,10 +1,7 @@
 package com.example.musifyapi.dto;
 
-import java.util.List;
-
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.musifyapi.document.Song;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

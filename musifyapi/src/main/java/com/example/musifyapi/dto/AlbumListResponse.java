@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AlbumListResponse {
-    private boolean success;
+    private Boolean success;
     private List<Album> albums;
 
 }

@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SongListResponse {
-    private boolean success;
+    private Boolean success;
     private List<Song> songs;
 }

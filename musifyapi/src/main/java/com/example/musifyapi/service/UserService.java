@@ -1,5 +1,6 @@
 package com.example.musifyapi.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.musifyapi.document.User;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
+
 
     public UserResponse registerUser(RegisterRequest request){
         //check if email already exists
@@ -22,7 +25,7 @@ public class UserService {
         //create new user
         User newUser = User.builder()
             .email(request.getEmail())
-            .password(request.getPassword())
+            .password(passwordEncoder.encode(request.getPassword()))
             .role(User.Role.USER)
             .build();
 

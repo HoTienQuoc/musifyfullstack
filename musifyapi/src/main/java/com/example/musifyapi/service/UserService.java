@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
     private UserRepository userRepository;
 
-    private UserResponse registerUser(RegisterRequest request){
+    public UserResponse registerUser(RegisterRequest request){
         //check if email already exists
         if(userRepository.existsByEmail(request.getEmail())){
             throw new RuntimeException("Email already exists");

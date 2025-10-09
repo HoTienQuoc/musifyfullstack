@@ -1,0 +1,87 @@
+Dưới đây là giải thích chi tiết đầy đủ, không bỏ sót bất kỳ ý nào về đoạn mã Java bạn cung cấp. Mã này là một phần của ứng dụng Spring Boot sử dụng Spring Security để thực hiện xác thực người dùng dựa trên email.
+🧾 Tổng quan:
+Đây là một class Java có tên AppUserDetailServices trong package com.example.musifyapi.service.
+Nó được chú thích với @Service, tức là nó là một Spring service component, sẽ được Spring quản lý vòng đời và tự động tiêm phụ thuộc.
+Class này implement interface UserDetailsService, đây là một phần của Spring Security, cho phép tùy biến cách tải người dùng từ cơ sở dữ liệu để xác thực.
+📦 Các import quan trọng
+Từ Spring Security:
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+UserDetailsService: Interface cung cấp method loadUserByUsername — nơi logic tải người dùng được định nghĩa.
+UserDetails: Đại diện cho một user đã được xác thực trong hệ thống.
+UsernameNotFoundException: Ngoại lệ ném ra khi không tìm thấy user tương ứng.
+GrantedAuthority: Đại diện cho quyền (authority) của người dùng.
+SimpleGrantedAuthority: Một implement đơn giản của GrantedAuthority.
+Từ Lombok và Spring:
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+@Service: Spring quản lý class này như một "service".
+@RequiredArgsConstructor: Lombok tự động sinh constructor có tất cả các biến final.
+Của project:
+import com.example.musifyapi.document.User;
+import com.example.musifyapi.repository.UserRepository;
+User: Class mô tả người dùng, có thể là một entity hoặc document (MongoDB).
+UserRepository: Lớp để truy vấn người dùng từ database (có thể là MongoDB repository).
+🧱 Chi tiết class AppUserDetailServices
+1. Annotation:
+@Service
+@RequiredArgsConstructor
+@Service: Spring sẽ scan và đăng ký class này thành một bean để có thể inject vào nơi khác.
+@RequiredArgsConstructor: Sinh constructor chứa userRepository (được đánh dấu là final).
+2. Field:
+private final UserRepository userRepository;
+Repository dùng để truy vấn thông tin người dùng từ cơ sở dữ liệu (MongoDB hoặc một nguồn dữ liệu khác).
+3. Ghi đè phương thức loadUserByUsername
+@Override
+public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    User existingUser = userRepository
+        .findByEmail(email)
+        .orElseThrow(
+            () -> new UsernameNotFoundException("User not found for the email: "+email)
+        );
+    return new org.springframework.security.core.userdetails.User(
+        existingUser.getEmail(), existingUser.getPassword(), getAuthorities(existingUser)
+    );
+}
+Giải thích:
+Tham số email: Đây là giá trị đầu vào để tìm kiếm user — trong Spring Security, username có thể là username hoặc email, tùy cách ta cấu hình.
+userRepository.findByEmail(email): Gọi tới repository để tìm người dùng theo email.
+.orElseThrow(...): Nếu không tìm thấy người dùng, ném ngoại lệ UsernameNotFoundException — điều này khiến Spring Security hiểu rằng user không tồn tại.
+Nếu tìm thấy:
+Tạo một đối tượng UserDetails bằng cách dùng lớp có sẵn của Spring Security: org.springframework.security.core.userdetails.User.
+Truyền vào email, password, và quyền của user (được lấy từ phương thức getAuthorities()).
+4. Phương thức getAuthorities()
+private Collection<? extends GrantedAuthority> getAuthorities(User existingUser){
+    return Collections.singletonList(
+        new SimpleGrantedAuthority("ROLE_" + existingUser.getRole().name())
+    );
+}
+Giải thích:
+Spring Security yêu cầu thông tin về quyền (authority) của người dùng.
+Ở đây, mỗi người dùng có 1 quyền duy nhất — ví dụ như "ROLE_USER" hoặc "ROLE_ADMIN".
+existingUser.getRole().name() giả định rằng Role là một enum, ví dụ:
+public enum Role {
+    USER, ADMIN
+}
+SimpleGrantedAuthority là implementation của GrantedAuthority.
+Dùng Collections.singletonList(...) để trả về danh sách chứa 1 phần tử (quyền của người dùng).
+✅ Kết quả hoạt động
+Spring Security sẽ sử dụng AppUserDetailServices khi cần xác thực người dùng. Cụ thể:
+Người dùng gửi email + password.
+Spring Security gọi loadUserByUsername(email).
+Hệ thống kiểm tra người dùng tồn tại không.
+Nếu có:
+Lấy thông tin người dùng, bao gồm password và quyền.
+So sánh password (đã mã hóa) với password nhập vào.
+Nếu đúng → xác thực thành công → user được "login".
+📌 Tổng kết vai trò của AppUserDetailServices
+Thành phần	Vai trò
+@Service	Đánh dấu là một Spring Service
+UserDetailsService	Interface dùng để cấu hình cách lấy người dùng
+loadUserByUsername(String email)	Tải người dùng từ DB bằng email
+UserRepository	Truy vấn DB
+getAuthorities(User)	Cung cấp role của người dùng dưới dạng GrantedAuthority
+Nếu bạn cần giải thích thêm về các lớp liên quan, ví dụ như User, UserRepository, hay cấu hình Spring Security sử dụng class này như thế nào, mình có thể giúp bạn tiếp.

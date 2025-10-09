@@ -18,6 +18,7 @@ import com.example.musifyapi.dto.RegisterRequest;
 import com.example.musifyapi.dto.UserResponse;
 import com.example.musifyapi.service.AppUserDetailsService;
 import com.example.musifyapi.service.UserService;
+import com.example.musifyapi.utils.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,7 @@ public class AuthController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final AppUserDetailsService userDetailsService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
@@ -41,8 +43,10 @@ public class AuthController {
             UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
             User existingUser = userService.findByEmail(request.getEmail());
             //Generate jwt token
-            
-            return ResponseEntity.ok(new AuthResponse("token",request.getEmail(),"USER"));
+            String token = jwtUtil.generateToken(userDetails, existingUser.getRole().name());
+            return ResponseEntity.ok(
+                new AuthResponse(token,request.getEmail(),existingUser.getRole().name())
+            );
         } catch (BadCredentialsException e) {
             return ResponseEntity.badRequest().body("Email/Password is incorrect");
         } catch (Exception e) {

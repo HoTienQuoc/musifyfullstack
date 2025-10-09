@@ -1,5 +1,10 @@
 package com.example.musifyapi.service;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,16 +15,10 @@ import com.example.musifyapi.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.Collection;
-import java.util.Collections;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 
 @Service
 @RequiredArgsConstructor
-public class AppUserDetailServices implements UserDetailsService{
+public class AppUserDetailService implements UserDetailsService{
     private final UserRepository userRepository;
 
     @Override

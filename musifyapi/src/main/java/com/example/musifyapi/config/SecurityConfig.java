@@ -41,7 +41,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    private UrlBasedCorsConfigurationSource corsConfigurationSource() {
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOriginPattern("*");
         // configuration.setAllowedOrigins(Arrays.asList("*"));

@@ -12,11 +12,14 @@ import com.example.musifyapi.dto.RegisterRequest;
 import com.example.musifyapi.dto.UserResponse;
 import com.example.musifyapi.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user) {

@@ -117,13 +117,6 @@ Bạn cần	Dùng gì
 CORS đơn giản cho 1 controller	@CrossOrigin
 CORS toàn ứng dụng	WebMvcConfigurer#addCorsMappings()
 CORS nâng cao, tùy biến, tích hợp bảo mật	Tạo CorsConfigurationSource bean
-Nếu bạn đang dùng Spring Security, thì bạn cần bật CORS trong Security config nữa. Mình có thể chỉ luôn nếu bạn cần nhé.
-Bạn đang làm theo hướng nào? Cấu hình toàn cục hay riêng từng API? Mình có thể giúp cụ thể hơn.
-You said:
-còn nữa không
-ChatGPT said:
-Rất tốt! Bạn đang muốn tìm hiểu kỹ toàn diện về CorsConfiguration trong Spring Boot — điều này rất đáng hoan nghênh. Chúng ta đã đi qua gần như toàn bộ các API public của class CorsConfiguration trong Spring (Spring Web).
-Tuy nhiên, để chắc chắn là không bỏ sót, mình sẽ:
 
 Tổng hợp lại tất cả các method công khai (public methods) của class CorsConfiguration.
 Bổ sung một số thông tin nội bộ hoặc liên quan mà bạn có thể chưa biết đến.
@@ -206,5 +199,12 @@ checkHttpMethod(HttpMethod requestMethod)	trong một số phiên bản	Kiểm t
 
 checkHeaders(List<String> requestHeaders)	trong các phiên bản cũ hơn	Kiểm tra các header trong pre-flight request xem có hợp lệ theo cấu hình allowedHeaders không. 
 
-Nếu bạn muốn, mình có thể liệt “toàn bộ method public” của CorsConfiguration trong phiên bản Spring Boot mà bạn đang dùng (ví dụ Spring Boot 3.x, Spring Boot 2.x) để bạn dễ so sánh. Bạn đang dùng Spring Boot phiên bản nào vậy? Mình gửi bạn danh sách full cho phiên bản đó nhé?
+<cors> Attributes
+The attributes on the <cors> element control the headers element.
+ref Optional attribute that specifies the bean name of a CorsFilter.
+cors-configuration-source-ref Optional attribute that specifies the bean name of a CorsConfigurationSource 
+to be injected into a CorsFilter created by the XML namespace.
+Parent Elements of <cors>
+http
+
 

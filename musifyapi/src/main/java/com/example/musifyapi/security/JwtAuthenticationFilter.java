@@ -32,6 +32,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         String email = null;
         String jwtToken = null;
 
+        if( request.getRequestURI().contains("/login") ||
+            request.getRequestURI().contains("/register") ||
+            request.getRequestURI().contains("/health")
+        ){
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         if(requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")){
             jwtToken = requestTokenHeader.substring(7);
             try {

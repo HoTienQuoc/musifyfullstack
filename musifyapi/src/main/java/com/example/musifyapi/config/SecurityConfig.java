@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -19,6 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import com.cloudinary.Api;
 import com.example.musifyapi.security.JwtAuthenticationFilter;
 import com.example.musifyapi.service.AppUserDetailsService;
 
@@ -42,8 +44,9 @@ public class SecurityConfig {
                     "/api/health"
                 )
                 .permitAll()
-                .anyRequest()
-                .authenticated()
+                .requestMatchers(HttpMethod.GET,"/api/albums","/api/songs")
+                .hasAnyRole("USER","ADMIN")
+                .anyRequest().hasAnyRole(("ADMIN"))
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

@@ -5,7 +5,7 @@ export const Register = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-green-900 via-black to-green-900 flex items-center justify-center p-4">
             <div className="max-w-md w-full space-y-8">
-                {/*Headers*/}
+                {/* Headers */}
                 <div className="text-center">
                     <div className="flex items-center justify-center mb-6">
                         <div className="flex items-center justify-center mb-6">
@@ -15,6 +15,53 @@ export const Register = () => {
                             </h1>
                         </div>
                     </div>
+                    <h2 className="text-2xl font-bold text-white mb-2">
+                        Join Musify
+                    </h2>
+                    <p className='text-gray-300'>
+                        Create your account to start listening
+                    </p>
+                </div>
+                {/* Register form */}
+                <div className="bg-gray-900/80 backdrop-blug-lg rounded-2xl p-8 shadow-2xl border border-gray-700">
+                    <form action="" className='space-y-6'>
+                        {/* Email Field */}
+                        <div>
+                            <label htmlFor="Email" className='block text-sm font-medium text-gray-200 mb-2'>
+                                Email Address
+                            </label>
+                            <input type="email" name="email" id="email" autoComplete='email' required className='block w-full px-4 py-3 border border-gray-600 rounded-lg
+                            bg-gray-800/50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200'
+                            placeholder='Enter your email'/>
+                        </div>
+                        {/* Password Field */}
+                        <div>
+                            <label htmlFor="Password" className='block text-sm font-medium text-gray-200 mb-2'>
+                                Password
+                            </label>
+                            <input type="password" name="password" id="password" autoComplete='new-password' required className='block w-full px-4 py-3 border border-gray-600 rounded-lg
+                            bg-gray-800/50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200'
+                            placeholder='Create a password'/>
+                        </div>
+                        {/* Confirm Password Field */}
+                        <div>
+                            <label htmlFor="ConfirmPassword" className='block text-sm font-medium text-gray-200 mb-2'>
+                                Confirm Password
+                            </label>
+                            <input type="password" name="confirmPassword" id="confirmPassword" autoComplete='new-password' required className='block w-full px-4 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200'
+                            placeholder='Confirm your password'/>
+                        </div>
+                        {/* Submit Button */}
+                        <button className='w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105'>
+                            Register
+                        </button>
+                        {/* Switch to login */}
+                        <div className="mt-6 text-center">
+                            <p className="text-sm text-gray-400">
+                                Already have an account
+                            </p>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

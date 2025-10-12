@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/assets'
 import { toast } from 'react-toastify';
-
+import { useAuth } from '../context/AuthContext';
+// import { useNavigation } from 'react-router-dom'
 
 export const Register = () => {
     const [email, setEmail] = useState("");
@@ -9,6 +10,8 @@ export const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const {register} = useAuth();
+    // const navigate = useNavigation();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,6 +25,21 @@ export const Register = () => {
             setError('Passwords do not match');
             toast.error('Passwords do not match');
             return;
+        }
+        setLoading(true);
+        try {
+            const result = await register(email,password);
+            if(result.success){
+                toast.success(result.message);
+            } else{
+                toast.error(result.message);
+                setError(result.message);
+            }
+        } catch (error) {
+            toast.error('An unexpected error occurred. Please try again later.');
+            setError(error.message)
+        } finally{
+            setLoading(false);
         }
     }
     return (

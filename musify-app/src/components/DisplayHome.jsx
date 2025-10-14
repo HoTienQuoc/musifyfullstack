@@ -1,17 +1,28 @@
-import { useAuth } from "../context/AuthContext";
+import { useContext } from "react";
+import { PlayerContext } from "../context/PlayerContext";
 
 const DisplayHome = () => {
-    const {logout} = useAuth();
-    const handleLogout = () => {
-        logout();
-    }
+    const {songsData, albumsData} = useContext(PlayerContext);
     return (
         <>
-            <div>Displaying the albums and songs</div>
-            <button onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700 py-1 px-3 rounded-2xl text-[15px] cursor-pointer">
-                Logout
-            </button>
+            <div className="mb-4">
+                <h1 className="my-5 font-bold text-2xl">
+                    Featured Charts
+                    <div className="flex overflow-auto">
+                        {/* Display the albums data */}
+                        Displaying the albums
+                    </div>
+                </h1>
+            </div>
+            <div className="mb-4">
+                <h1 className="my-5 font-bold text-2xl">
+                    Today's biggest hits
+                </h1>
+                <div className="flex overflow-auto">
+                    {/* Display the songs data */}
+                    Displaying the songs
+                </div>
+            </div>
         </>
     );
 }

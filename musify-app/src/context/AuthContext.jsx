@@ -11,8 +11,10 @@ export const useAuth = () => {
     return context;
 }
 
+export const API_BASE_URL = "http://localhost:8080";
+
+
 export const AuthProvider = ({children}) => {
-    const API_BASE_URL = "http://localhost:8080";
 
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem("userToken"));
@@ -86,11 +88,18 @@ export const AuthProvider = ({children}) => {
         localStorage.removeItem("userData");
     }
 
+    const getAuthHeaders = () => {
+        return token ? {Authorization: `Bearer ${token}`} : {};
+    }
+
     const contextValue = {
         register,
         login,
         isAuthenticated,
-        loading
+        loading,
+        user,
+        token,
+        getAuthHeaders
     }
     return (
         <AuthContext.Provider value={contextValue}>

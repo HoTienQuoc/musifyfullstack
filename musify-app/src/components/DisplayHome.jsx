@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { PlayerContext } from "../context/PlayerContext";
+import AlbumItem from "./AlbumItem";
 
 const DisplayHome = () => {
     const {songsData, albumsData} = useContext(PlayerContext);
@@ -10,7 +11,11 @@ const DisplayHome = () => {
                     Featured Charts
                     <div className="flex overflow-auto">
                         {/* Display the albums data */}
-                        Displaying the albums
+                        {albumsData.map((item, index)=>{
+                            <AlbumItem 
+                            key={index} name={item.name} desc={item.desc}
+                            id={item._id} image={item.imageUrl}/>
+                        })}
                     </div>
                 </h1>
             </div>

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { PlayerContext } from "../context/PlayerContext";
 import AlbumItem from "./AlbumItem";
+import SongItem from "./SongItem";
 
 const DisplayHome = () => {
     const {songsData, albumsData} = useContext(PlayerContext);
@@ -12,7 +13,7 @@ const DisplayHome = () => {
                     <div className="flex overflow-auto">
                         {/* Display the albums data */}
                         {albumsData.map((item, index)=>{
-                            <AlbumItem 
+                            <AlbumItem
                             key={index} name={item.name} desc={item.desc}
                             id={item._id} image={item.imageUrl}/>
                         })}
@@ -25,7 +26,11 @@ const DisplayHome = () => {
                 </h1>
                 <div className="flex overflow-auto">
                     {/* Display the songs data */}
-                    Displaying the songs
+                    {songsData.map((item, index)=>{
+                        <SongItem
+                        key={index} name={item.name} desc={item.desc}
+                        id={item._id} image={item.image}/>
+                    })}
                 </div>
             </div>
         </>

@@ -95,6 +95,7 @@ export const AuthProvider = ({children}) => {
     const contextValue = {
         register,
         login,
+        logout,
         isAuthenticated,
         loading,
         user,

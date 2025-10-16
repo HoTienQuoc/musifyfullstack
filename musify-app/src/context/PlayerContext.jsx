@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext, useAuth, API_BASE_URL } from "./AuthContext";
+import axios from "axios";
 
 export const PlayerContext = createContext();
 
@@ -7,6 +8,7 @@ export const PlayerContextProvider = ({children}) => {
     const [songsData, setSongsData] = useState([]);
     const [albumsData, setAlbumsData] = useState([]);
     const {user, token, getAuthHeaders} = useAuth();
+
 
     const getSongsData = async () => {
         try{

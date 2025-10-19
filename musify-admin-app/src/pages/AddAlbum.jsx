@@ -10,7 +10,7 @@ const AddAlbum = () => {
     const [colour, setColour] = useState("");
     const [name, setName] = useState("");
     const [desc, setDesc] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();

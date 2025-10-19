@@ -11,7 +11,7 @@ const AddSong = () => {
     const [name, setName] = useState("");
     const [desc, setDesc] = useState("");
     const [album, setAlbum] = useState("none");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [albumData, setAlbumData] = useState([]);
 
     const onSubmitHandler = async (e) => {

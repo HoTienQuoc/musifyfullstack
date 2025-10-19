@@ -21,6 +21,18 @@ const ListSong = () => {
         }
     }
 
+    const removeSong = async (id) => {
+        try{
+            const response = await songsApi.remove(id);
+            if(response.status===204){
+                toast.success('Song deleted');
+                await fetchSongs();
+            }
+        } catch(error){
+            toast.error("Failed to delete the song");
+        }
+    }
+
     useEffect(() => {
         fetchSongs();
     }, [])
@@ -105,7 +117,7 @@ const ListSong = () => {
                                         </div>
                                         {/* Action button */}
                                         <div className="col-span-2 flex justify-center">
-                                            <button title="Delete Song"
+                                            <button title="Delete Song" onClick={removeSong(song._id)}
                                                 className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 transition-colors duration-200 group">
                                                 <Trash className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
                                             </button>

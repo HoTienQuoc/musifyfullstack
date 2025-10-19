@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import axios from 'axios';
 import { API_BASE_URL } from "../App";
+import apiClient from "../services/apiService";
 
 export const AuthContext = createContext();
 
@@ -19,7 +19,7 @@ export const AuthProvider = ({children}) => {
 
     const login = async (email,password) => {
         try {
-            const response = axios.post(`${API_BASE_URL}/api/auth/login`,{email,password});
+            const response = await apiClient.post(`/api/auth/login`,{email,password,portal:"admin"});
             if(response.status===200){
                 setToken(response.data.token);
                 setUser({email: response.data.email, role: response.data.role})

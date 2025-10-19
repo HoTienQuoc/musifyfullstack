@@ -55,9 +55,9 @@ export const AuthProvider = ({children}) => {
         }
     }
 
-    const login = async () => {
+    const login = async (email, password) => {
         try{
-            const response = axios.post(`${API_BASE_URL}/api/auth/login`,{email,password});
+            const response = axios.post(`${API_BASE_URL}/api/auth/login`,{email,password,portal:'user'});
             if(response.status===200){
                 setToken(response.data.token);
                 setUser({email: response.data.email, role: response.data.role});

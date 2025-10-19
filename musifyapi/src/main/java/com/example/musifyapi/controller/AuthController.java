@@ -1,5 +1,7 @@
 package com.example.musifyapi.controller;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -69,6 +71,16 @@ public class AuthController {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/promote-admin")
+    public ResponseEntity<?> promoteToAdmin(@RequestBody Map<String,String> request) {
+        try{
+            User user = userService.promoteToAdmin(request.get("email"));
+            return ResponseEntity.ok(new AuthResponse(null,user.getEmail(),"ADMIN"));
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body("Failed to promote user to admin");
         }
     }
 
